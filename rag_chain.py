@@ -2,9 +2,20 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 from langchain_community.vectorstores import Chroma
 
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains.history_aware_retriever import create_history_aware_retriever
+try:
+    from langchain.chains import create_retrieval_chain
+except (ImportError, ModuleNotFoundError):
+    from langchain.chains.retrieval import create_retrieval_chain
+
+try:
+    from langchain.chains.combine_documents import create_stuff_documents_chain
+except (ImportError, ModuleNotFoundError):
+    from langchain.chains.combine_documents.stuff import create_stuff_documents_chain
+
+try:
+    from langchain.chains.history_aware_retriever import create_history_aware_retriever
+except (ImportError, ModuleNotFoundError):
+    from langchain.chains.history_aware_retriever.base import create_history_aware_retriever
 
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
